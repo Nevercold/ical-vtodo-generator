@@ -5,6 +5,7 @@ export {
     type ICalTodoAlarmRepeat,
     ICalTodoAlarmType,
 } from './alarm.ts';
+export {type ICalTodoInsertOptions, insertTodos} from './calendar.ts';
 export type {
     ICalTodoDateValue,
     ICalTodoFormattableDate,

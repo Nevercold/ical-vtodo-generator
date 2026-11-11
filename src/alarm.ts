@@ -9,12 +9,12 @@ export const ICalTodoAlarmType = {
 export type ICalTodoAlarmType = (typeof ICalTodoAlarmType)[keyof typeof ICalTodoAlarmType];
 
 /**
- * What a relative trigger refers to. `end` is the DUE of the to-do,
- * `start` its DTSTART (RFC 5545, 3.2.14).
+ * What a relative trigger refers to. `END` is the DUE of the to-do,
+ * `START` its DTSTART (RFC 5545, 3.2.14).
  */
 export const ICalTodoAlarmRelatesTo = {
-    start: 'start',
-    end: 'end',
+    start: 'START',
+    end: 'END',
 } as const;
 export type ICalTodoAlarmRelatesTo = (typeof ICalTodoAlarmRelatesTo)[keyof typeof ICalTodoAlarmRelatesTo];
 
@@ -34,7 +34,7 @@ export interface ICalTodoAlarmData {
     triggerBefore?: number | ICalTodoDateValue;
     /** Seconds after the reference point, or an absolute date. */
     triggerAfter?: number | ICalTodoDateValue;
-    /** Reference point of a relative trigger. Defaults to `end` (DUE). */
+    /** Reference point of a relative trigger. Defaults to `END` (DUE). */
     relatesTo?: ICalTodoAlarmRelatesTo;
     /** Text of a display alarm. Defaults to the summary of the to-do. */
     description?: string | null;
@@ -186,13 +186,13 @@ export class ICalTodoAlarm {
         const lines = ['BEGIN:VALARM', 'ACTION:' + this._type.toUpperCase()];
 
         if (typeof this._trigger === 'number') {
-            if (this._relatesTo === 'end' && !todo.hasDue) {
+            if (this._relatesTo === 'END' && !todo.hasDue) {
                 throw new Error('An alarm relative to the end of a to-do needs a due date');
             }
-            if (this._relatesTo === 'start' && !todo.hasStart) {
+            if (this._relatesTo === 'START' && !todo.hasStart) {
                 throw new Error('An alarm relative to the start of a to-do needs a start date');
             }
-            lines.push('TRIGGER' + (this._relatesTo === 'end' ? ';RELATED=END' : '') + ':' + toDuration(this._trigger));
+            lines.push('TRIGGER' + (this._relatesTo === 'END' ? ';RELATED=END' : '') + ':' + toDuration(this._trigger));
         } else {
             lines.push('TRIGGER;VALUE=DATE-TIME:' + formatUtc(this._trigger));
         }

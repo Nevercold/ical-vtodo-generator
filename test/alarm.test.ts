@@ -84,14 +84,14 @@ describe('alarms', () => {
 
     it('needs a start date for alarms relative to the start', () => {
         const value = todo({...base, due: new Date('2026-11-20T16:00:00Z')});
-        value.createAlarm({trigger: 900, relatesTo: 'start'});
+        value.createAlarm({trigger: 900, relatesTo: 'START'});
         expect(() => value.toString()).toThrow('start date');
     });
 
     it('has fluent setters and getters', () => {
-        const alarm = new ICalTodoAlarm().triggerBefore(1800).relatesTo('end').description('Soon');
+        const alarm = new ICalTodoAlarm().triggerBefore(1800).relatesTo('END').description('Soon');
         expect(alarm.trigger()).toBe(1800);
-        expect(alarm.relatesTo()).toBe('end');
+        expect(alarm.relatesTo()).toBe('END');
         alarm.triggerAfter(60);
         expect(alarm.trigger()).toBe(-60);
         expect(alarm.description()).toBe('Soon');
