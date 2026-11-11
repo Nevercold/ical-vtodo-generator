@@ -12,7 +12,7 @@
     "ical-generator"
   ],
   "license": "MIT",
-  "author": "Moritz",
+  "author": "Moritz Walter",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nevercold/ical-vtodo-generator.git"
