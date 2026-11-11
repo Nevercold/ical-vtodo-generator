@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-      # trusted publishing needs npm 11.5.1 or later
-      - run: npm install -g npm@11
+      # staged publishing needs npm 12
+      - run: npm install -g npm@12
       - run: npm ci
 
       - name: Set version from tag
@@ -36,11 +36,12 @@ jobs:
             echo "exists=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Publish
+      # The version goes live once it is approved on npmjs.com (2FA).
+      - name: Stage for publishing
         if: steps.published.outputs.exists != 'true'
         run: |
           if [[ "${{ steps.version.outputs.version }}" == *-* ]]; then
-            npm publish --access public --tag next
+            npm stage publish --access public --tag next
           else
-            npm publish --access public
+            npm stage publish --access public
           fi
